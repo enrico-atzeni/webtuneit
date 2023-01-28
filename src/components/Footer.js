@@ -7,6 +7,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import AppContext from '../AppContext';
 import { useContext } from 'react';
+import { Link } from '@mui/material';
 
 function Footer() {
     const {nerdMode, setNerdMode, xsScreen} = useContext(AppContext)
@@ -33,6 +34,8 @@ function Footer() {
                 }}>
                     &copy;{new Date().getFullYear()} Web Tune It, all rights reserved
                 </Typography>
+
+                <Link variant="caption" href="https://github.com/enrico-atzeni/webtuneit/" target="_blank">GitHub</Link>
             </Stack>
 
             <Typography variant="caption" display="block" gutterBottom style={{
