@@ -1,0 +1,20 @@
+{
+  "short_name": "Web Tune It",
+  "name": "Web Tune It",
+  "icons": [
+    {
+      "src": "img/icon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "img/icon-64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#f6f3f3",
+  "background_color": "#151b26"
+}

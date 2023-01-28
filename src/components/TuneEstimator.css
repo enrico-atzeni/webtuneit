@@ -1,0 +1,88 @@
+.tuner-wrap {
+    display: inline-block;
+    height: 2rem;
+    width: 80%;
+    background: #333;
+    border-radius: 2rem;
+    margin: 2rem;
+    position: relative;
+    line-height: middle;
+    border:1px solid #aaa;
+}
+.tuner-wrap:before {
+    content: '';
+    position: absolute;
+    top: 15%;
+    bottom: 15%;
+    left: 49.8%;
+    width: 0.4%;
+    background: #fff;
+    border-radius: 5px;
+    z-index: 9;
+    border: 1px solid #777;
+}
+.tuner-wrap .tune {
+    position: absolute;
+    z-index: 3;
+    /* display: none; */
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-left: -.42rem;
+    border-radius: 3rem;
+    display: block;
+    background: limegreen;
+    left: 50%;
+    top: 18%;
+    transition: .2s linear left;
+}
+.tuner-wrap .tune-text {
+    color: limegreen;
+    background: none;
+    width: 8rem;
+    height: auto;
+    top: 100%;
+    margin-left: -4rem;
+}
+
+#imgtune {
+    position: fixed;
+    z-index: -1;
+    top: 35%;
+    left: 50%;
+    left: calc( 50% - 275px );
+    width: 550px;
+    transition: 2s ease top, 2s ease left;
+}
+#imgtune.side {
+    top: 20%;
+    left: 50%;
+}
+#baseimg {
+    opacity: .7;
+}
+#imgtune .string {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: .2s linear opacity;
+}
+
+@media (max-width: 820px) {
+    #imgtune.side {
+        left: initial;
+        right: -18%;
+        transition: .2s linear opacity;
+    }
+}
+
+@media (max-width: 420px) {
+    #imgtune.side {
+        right: initial;
+        opacity: .8;
+    }
+    #baseimg {
+        opacity: .5;
+    }
+}

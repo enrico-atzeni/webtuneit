@@ -1,0 +1,24 @@
+body {
+    margin: 0;
+    background: #151b26;
+    color: #f6f3f3;
+    font-size: 2.3vw;
+}
+
+.App {
+    text-align: center;
+}
+
+.PageContent {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 1000px) {
+    body {
+        font-size: 23px;
+    }
+}
