@@ -6,6 +6,11 @@ const getFrequencyRange = (instrument) => {
                 min: 50,
                 max: 300
             };
+        case "electricguitar":
+            return {
+                min: 80,
+                max: 1200
+            };
         default:
             return {
                 min: 14,
@@ -37,6 +42,11 @@ const getNotesFrequencies = (instrument) => {
         case "bassguitar":
             noteFrequencies = noteFrequencies.filter((tune) => {
                 return ["B1", "E2", "A2", "D3", "G3", "C4"].indexOf(tune.note + tune.octave) !== -1;
+            });
+        break;
+        case "electricguitar":
+            noteFrequencies = noteFrequencies.filter((tune) => {
+                return ["E2", "A2", "D3", "G3", "B3", "E4"].indexOf(tune.note + tune.octave) !== -1;
             });
         break;
         default:
