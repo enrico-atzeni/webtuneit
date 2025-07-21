@@ -15,57 +15,16 @@ const getFrequencyRange = (instrument) => {
 }
 
 const getNotesFrequencies = (instrument) => {
-    let noteFrequencies = [
-        {
-            note: "B",
-            octave: 8,
-            freq: 7902.13
-        },
-        {
-            note: "A",
-            octave: 8,
-            freq: 7040
-        },
-        {
-            note: "G",
-            octave: 8,
-            freq: 6271.93
-        },
-        {
-            note: "F",
-            octave: 8,
-            freq: 5587.65
-        },
-        {
-            note: "E",
-            octave: 8,
-            freq: 5274.04
-        },
-        {
-            note: "D",
-            octave: 8,
-            freq: 4698.63
-        },
-        {
-            note: "C",
-            octave: 8,
-            freq: 4186.01
-        }
-    ];
+    let noteFrequencies = [];
+    const notes = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
 
-    // calculate all frequencies from 8^ to 0
-    for (let i = 0; i < noteFrequencies.length; i++) {
-        const tune = noteFrequencies[i];
-
-        // avoid loops
-        if (tune.octave !== 8) continue;
-
-        let freq = tune.freq;
-        for (let o = tune.octave - 1; o >= 0; o--) {
-            freq = Math.ceil(freq / 2 * 100) / 100;
+    for (let octave = 0; octave < 9; octave++) {
+        for (let i = 0; i < notes.length; i++) {
+            const note = notes[i];
+            const freq = 440 * Math.pow(2, (octave - 4) + (i - 9) / 12);
             noteFrequencies.push({
-                note: tune.note,
-                octave: o,
+                note: note,
+                octave: octave,
                 freq: freq
             });
         }

@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack'
 import { getNoteStandardName } from "../utils/Utils";
 import { useContext } from 'react';
 import AppContext from '../AppContext';
+import yin from '../utils/yin';
 
 import "./TuneEstimator.css";
 import bassimg from '../assets/bassbg-low.jpg'
@@ -17,17 +18,10 @@ import FeedbackCollector from "./FeedbackCollector";
 
 let bufferizedData = [];
 
-let previousEstimatedFrequences = [];
-
 function TuneEstimator({sampleRate, nerdMode, notesToCheckFor, audioSourceNode}) {
     const [estimatedNote, setEstimatedNote] = useState({});
     const [estimatedFrequency, setEstimatedFrequency] = useState(0);
     const {xsScreen} = useContext(AppContext)
-
-    // we use mobile average to stabilize estimated frequency
-    const avg_number = 14;
-    // the greatest, the more sensitive to changes but instable average
-    const near_importance_factor = 2;
 
     // lower equals a faster analysys, but it may miss low freq notes
     let checkTuneEveryXFrames = sampleRate / 6;
@@ -40,42 +34,21 @@ function TuneEstimator({sampleRate, nerdMode, notesToCheckFor, audioSourceNode})
 
         bufferizedData = bufferizedData.slice(checkTuneEveryXFrames);
 
-        let zeroCrossings = 0;
-
-        for (let i = 1; i < channel.length - 1; i++) {
-            if ((channel[i] <= 0 && channel[i - 1] > 0)
-                ||
-                (channel[i] >= 0 && channel[i - 1] < 0)) zeroCrossings++;
-        }
-
-        const estimatedFrequencyFromZero = Math.round(zeroCrossings / 2 * (sampleRate / channel.length));
-        // console.log(zeroCrossings,estimatedFrequencyFromZero);
-
-        previousEstimatedFrequences.push(estimatedFrequencyFromZero);
-
-        // let's try using ponderate average *********
-        // calculate quotient for ponderate average
-        const avg_ponderate_quotient = ((sum, max, i) => { for (i = 0; i < max; i++) sum += Math.pow(i / max, near_importance_factor); return sum })(0, previousEstimatedFrequences.length);
-        // let's sum all data using ponderate factor and divide by the avg_ponderate_quotient
-        const avgEstimedFrequency = Math.round(previousEstimatedFrequences.reduce((sum, c, i) => sum + c * Math.pow(i / avg_number, near_importance_factor), 0) / avg_ponderate_quotient);
-
-        if (previousEstimatedFrequences.length >= avg_number) {
-            previousEstimatedFrequences = previousEstimatedFrequences.slice(1);
-        }
+        const estimatedFrequencyFromYin = yin(channel, sampleRate);
 
         let nearestDistance = null;
         let nearestTone = null;
 
         for (let i = 0; i < notesToCheckFor.length; i++) {
             const tone = notesToCheckFor[i];
-            let distance = Math.abs(tone.freq - avgEstimedFrequency) / tone.freq;
+            let distance = Math.abs(tone.freq - estimatedFrequencyFromYin) / tone.freq;
             if (nearestTone === null || distance < nearestDistance) {
                 nearestDistance = distance;
                 nearestTone = tone;
             }
         }
 
-        setEstimatedFrequency(isNaN(avgEstimedFrequency) ? 0 : avgEstimedFrequency);
+        setEstimatedFrequency(isNaN(estimatedFrequencyFromYin) ? 0 : estimatedFrequencyFromYin);
         setEstimatedNote(nearestTone);
     }, [notesToCheckFor, checkTuneEveryXFrames, sampleRate])
     
